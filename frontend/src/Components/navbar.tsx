@@ -27,7 +27,7 @@ export default function Navbar() {
                 <a className="hover:text-white transition-colors" href="/gallery">
                     gallery
                 </a>
-                <a className="hover:text-white transition-colors" href="#">
+                <a className="hover:text-white transition-colors" href="/blogs">
                     Blogs
                 </a>
             </div>

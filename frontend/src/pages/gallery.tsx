@@ -2,6 +2,7 @@ import { useState } from "react";
 import Navbar from "../Components/navbar";
 import Footer from "../Components/footer";
 import SearchBar from "../Components/search";
+import LoadMoreButton from "../Components/load_more";
 
 const galleryItems = [
     {
@@ -242,19 +243,19 @@ export default function GalleryPage() {
                 <p style={{ fontSize: "17px", color: "rgba(255,255,255,0.5)", fontWeight: 300, maxWidth: "480px" }}>
                     Real photos from real travellers. Discover places through the eyes of those who've been there.
                 </p>
- {/* SEARCH */}
-<SearchBar
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                onSearch={handleSearch}
-            />
+                {/* SEARCH */}
+                <SearchBar
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    onSearch={handleSearch}
+                />
 
 
             </div>
 
-           
 
-            
+
+
 
             {/* FILTER TABS */}
             <div className="max-w-5xl mx-auto px-10 mb-10 flex flex-wrap gap-2">
@@ -299,13 +300,9 @@ export default function GalleryPage() {
             </div>
 
             {/* LOAD MORE */}
-            <div className="text-center pb-16">
-                <button
-                    style={{ fontFamily: "'Space Mono', monospace", fontSize: "10px", letterSpacing: "0.25em", textTransform: "uppercase", border: "0.5px solid rgba(255,255,255,0.2)", padding: "14px 36px", borderRadius: "100px", color: "#e4e7ec", background: "transparent", cursor: "pointer" }}
-                >
-                    Load More Photos
-                </button>
-            </div>
+            <LoadMoreButton
+                onClick={() => console.log("Load more clicked")}
+            />
 
             {/* FOOTER */}
             <Footer />
