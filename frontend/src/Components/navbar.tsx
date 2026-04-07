@@ -21,10 +21,10 @@ export default function Navbar() {
                 TRAVELMATE
             </div>
             <div className="hidden md:flex items-center gap-10 text-sm uppercase tracking-[0.2em]">
-                <a className="hover:text-white transition-colors" href="#">
+                <a className="hover:text-white transition-colors" href="/">
                     Home
                 </a>
-                <a className="hover:text-white transition-colors" href="#">
+                <a className="hover:text-white transition-colors" href="/gallery">
                     gallery
                 </a>
                 <a className="hover:text-white transition-colors" href="#">
