@@ -1,6 +1,10 @@
 
 
-export default function FloatingChatButton({ onClick }) {
+interface Props {
+  onClick: () => void;
+}
+
+export default function FloatingChatButton({ onClick }: Props) {
   return (
     <button
       type="button"

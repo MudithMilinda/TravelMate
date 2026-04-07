@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { motion } from "motion/react";
 
 import ChatCard from "../Components/chat_card";
 import StatsSection from "../Components/countdown";
 import Footer from "../Components/footer";
 import Navbar from "../Components/navbar";
 import FloatingChatButton from "../Components/chat_icon";
+import Chatbot from "../Components/chatbot";
 import SearchBar from "../Components/search";
 
 const featureCards = [
@@ -28,6 +30,7 @@ const featureCards = [
 
 export default function App() {
   const [search, setSearch] = useState("");
+  const [chatOpen, setChatOpen] = useState(false);
 
   const handleSearch = () => {
     console.log("Searching:", search);
@@ -49,40 +52,74 @@ export default function App() {
         <Navbar />
 
         <div className="relative z-10 max-w-5xl mx-auto px-6 lg:px-0 pt-28 pb-24 lg:pt-40 h-full flex flex-col justify-center">
-          <div className="flex items-center gap-4 text-[#f0d083] tracking-[0.35em] text-xs uppercase">
+          <motion.div
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="flex items-center gap-4 text-[#f0d083] tracking-[0.35em] text-xs uppercase"
+          >
             <span className="inline-block w-8 h-px bg-[#f0d083]" />
             <span>Welcome to TRAVELMATE</span>
-          </div>
+          </motion.div>
 
-          <h1 className="mt-6 text-4xl md:text-5xl lg:text-[56px] leading-tight font-['Playfair_Display'] text-white">
+          <motion.h1
+            initial={{ opacity: 0, y: 26 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.75, delay: 0.1 }}
+            className="mt-6 text-4xl md:text-5xl lg:text-[56px] leading-tight font-['Playfair_Display'] text-white"
+          >
             Discover Places.
             <div>Share Your Journey...</div>
-          </h1>
+          </motion.h1>
 
-          <p className="mt-4 text-sm text-white/80">
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.2 }}
+            className="mt-4 text-sm text-white/80"
+          >
             Explore real travel experiences from people around the world
-          </p>
+          </motion.p>
 
-          {/* Search Bar */}
-          <SearchBar
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            onSearch={handleSearch}
-          />
+          <motion.div
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.3 }}
+          >
+            <SearchBar value={search} onChange={(e) => setSearch(e.target.value)} onSearch={handleSearch} />
+          </motion.div>
         </div>
       </header>
 
       <main className="relative z-20 max-w-6xl mx-auto px-6 lg:px-0 space-y-24 lg:space-y-32 pb-24">
-        <ChatCard />
-        <StatsSection />
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+          transition={{ duration: 0.65 }}
+        >
+          <ChatCard onOpenChat={() => setChatOpen(true)} />
+        </motion.div>
+        <motion.div
+          initial={{ opacity: 0, y: 18 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+          transition={{ duration: 0.65, delay: 0.1 }}
+        >
+          <StatsSection />
+        </motion.div>
 
         {featureCards.map((card, idx) => {
           const isEven = idx % 2 === 1;
 
           return (
-            <section
+            <motion.section
               key={card.id}
               className="grid lg:grid-cols-2 gap-10 items-center relative"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "0px 0px -100px 0px" }}
+              transition={{ duration: 0.65, delay: 0.05 * idx }}
             >
               <div className={isEven ? "lg:order-2" : ""}>
                 <div className="flex items-center gap-4 text-[#f0d083] tracking-[0.3em] text-[11px] uppercase">
@@ -108,14 +145,15 @@ export default function App() {
                   />
                 </div>
               </div>
-            </section>
+            </motion.section>
           );
         })}
       </main>
 
       <Footer />
 
-      <FloatingChatButton onClick={() => console.log("Chat clicked")} />
+      <FloatingChatButton onClick={() => setChatOpen(true)} />
+      <Chatbot open={chatOpen} onClose={() => setChatOpen(false)} />
     </div>
   );
 }

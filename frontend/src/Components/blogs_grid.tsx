@@ -195,6 +195,7 @@ function GridCard({ item, onClick }: { item: PhotoGridItem; onClick: (i: PhotoGr
 
 export default function PhotoGrid({ posts = [] }: PhotoGridProps) {
     const [active, setActive] = useState<PhotoGridItem | null>(null);
+    const [activeIndex, setActiveIndex] = useState<number | null>(null);
     const [likedIds, setLikedIds] = useState<Set<number>>(new Set());
 
     const mapped: PhotoGridItem[] = posts.length
@@ -213,40 +214,40 @@ export default function PhotoGrid({ posts = [] }: PhotoGridProps) {
         }))
         : defaultItems;
 
-    const pattern = [
-        { col: "span 2", row: "span 2" },
-        { col: "span 1", row: "span 1" },
-        { col: "span 1", row: "span 1" },
-        { col: "span 2", row: "span 1" },
-        { col: "span 1", row: "span 2" },
-        { col: "span 1", row: "span 1" },
-        { col: "span 2", row: "span 1" },
-        { col: "span 1", row: "span 1" },
+    const items = mapped.slice(0, 12);
+
+    const patternClasses = [
+        "md:col-span-2 md:row-span-2",
+        "md:col-span-1 md:row-span-1",
+        "md:col-span-1 md:row-span-1",
+        "md:col-span-2 md:row-span-1",
+        "md:col-span-1 md:row-span-2",
+        "md:col-span-1 md:row-span-1",
+        "md:col-span-2 md:row-span-1",
+        "md:col-span-1 md:row-span-1",
     ];
 
     return (
         <>
             <div
-                className="grid w-full"
-                style={{
-                    gridTemplateColumns: "repeat(3, 1fr)",
-                    gridAutoRows: "160px",
-                    gap: "12px",
-                    gridAutoFlow: "dense",
-                }}
+                className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 auto-rows-[180px] sm:auto-rows-[200px] gap-3 md:gap-4 lg:gap-5" 
+                style={{ gridAutoFlow: "dense" }}
             >
-                {mapped.slice(0, 12).map((item, i) => {
-                    const span = pattern[i % pattern.length];
+                {items.map((item, i) => {
+                    const spanClass = patternClasses[i % patternClasses.length];
 
                     return (
                         <div
                             key={item.id}
-                            style={{
-                                gridColumn: span.col,
-                                gridRow: span.row,
-                            }}
+                            className={`col-span-1 row-span-1 ${spanClass}`}
                         >
-                            <GridCard item={item} onClick={setActive} />
+                            <GridCard
+                                item={item}
+                                onClick={(clicked) => {
+                                    setActive(clicked);
+                                    setActiveIndex(i);
+                                }}
+                            />
                         </div>
                     );
                 })}
@@ -256,7 +257,28 @@ export default function PhotoGrid({ posts = [] }: PhotoGridProps) {
                 <BlogModal
                     item={active}
                     liked={likedIds.has(active.id)}
-                    onClose={() => setActive(null)}
+                    onClose={() => {
+                        setActive(null);
+                        setActiveIndex(null);
+                    }}
+                    onNext={
+                        items.length > 1 && activeIndex !== null
+                            ? () => {
+                                const nextIdx = (activeIndex + 1) % items.length;
+                                setActive(items[nextIdx]);
+                                setActiveIndex(nextIdx);
+                            }
+                            : undefined
+                    }
+                    onPrev={
+                        items.length > 1 && activeIndex !== null
+                            ? () => {
+                                const prevIdx = (activeIndex - 1 + items.length) % items.length;
+                                setActive(items[prevIdx]);
+                                setActiveIndex(prevIdx);
+                            }
+                            : undefined
+                    }
                     onToggleLike={(id) =>
                         setLikedIds((prev) => {
                             const next = new Set(prev);

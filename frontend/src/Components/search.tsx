@@ -5,6 +5,7 @@ type SearchBarProps = {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSearch?: () => void;
   placeholder?: string;
+  classNameOverride?: string;
 };
 
 export default function SearchBar({
@@ -12,22 +13,23 @@ export default function SearchBar({
   onChange,
   onSearch,
   placeholder = "Search destinations...",
+  classNameOverride = "",
 }: SearchBarProps) {
   return (
-    <div className="mt-12 w-full max-w-md">
+    <div className={`mt-10 w-full max-w-full sm:max-w-xl lg:max-w-3xl ${classNameOverride}`}>
       <div className="relative">
         <input
           type="text"
           value={value}
           onChange={onChange}
           placeholder={placeholder}
-          className="w-full px-6 py-4 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-white/50 focus:outline-none focus:border-[#f0d083] transition-colors"
+          className="w-full px-5 sm:px-6 py-3 sm:py-4 pr-14 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white placeholder-white/50 focus:outline-none focus:border-[#f0d083] transition-colors"
         />
 
         <button
           type="button"
           onClick={onSearch}
-          className="absolute right-2 top-1/2 -translate-y-1/2 bg-[#f0d083] hover:bg-[#ffd88f] text-[#0a1726] p-3 rounded-full transition-colors flex items-center justify-center"
+          className="absolute right-1.5 sm:right-2 top-1/2 -translate-y-1/2 bg-[#f0d083] hover:bg-[#ffd88f] text-[#0a1726] w-10 h-10 sm:w-11 sm:h-11 rounded-full transition-colors flex items-center justify-center"
         >
           <svg
             className="w-5 h-5"

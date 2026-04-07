@@ -1,6 +1,4 @@
-import { useState } from "react";
-
-interface GalleryItem {
+export interface GalleryItem {
     id: number;
     image: string;
     location: string;
@@ -12,32 +10,27 @@ interface GalleryItem {
     featured?: boolean;
 }
 
-export default function GalleryCard({ item }: { item: GalleryItem }) {
-    const [hovered, setHovered] = useState(false);
+interface Props {
+    item: GalleryItem;
+    onClick?: (item: GalleryItem) => void;
+}
 
+export default function GalleryCard({ item, onClick }: Props) {
     return (
-        <div
-            className="relative overflow-hidden rounded-xl cursor-pointer mb-3 break-inside-avoid"
-            onMouseEnter={() => setHovered(true)}
-            onMouseLeave={() => setHovered(false)}
+        <button
+            type="button"
+            onClick={() => onClick?.(item)}
+            className="group relative overflow-hidden rounded-xl cursor-pointer mb-3 break-inside-avoid w-full text-left"
         >
             <img
                 src={item.image}
                 alt={item.title}
-                className={`w-full block transition-transform duration-500 ${hovered ? "scale-105" : "scale-100"
-                    }`}
-                style={{ borderRadius: "12px" }}
+                className="w-full block rounded-xl transition-transform duration-500 group-hover:scale-105"
             />
 
             {/* Overlay */}
             <div
-                className="absolute inset-0 flex flex-col justify-end p-4 transition-opacity duration-300"
-                style={{
-                    background:
-                        "linear-gradient(to top, rgba(10,23,38,0.88) 0%, transparent 55%)",
-                    borderRadius: "12px",
-                    opacity: hovered ? 1 : 0,
-                }}
+                className="absolute inset-0 flex flex-col justify-end p-4 rounded-xl transition-opacity duration-300 bg-gradient-to-t from-[#0a1726]/90 via-[#0a1726]/60 to-transparent opacity-100 md:opacity-0 md:group-hover:opacity-100"
             >
                 <p className="mb-1 uppercase tracking-widest text-[#f0d083] text-[9px]">
                     {item.location}
@@ -64,6 +57,6 @@ export default function GalleryCard({ item }: { item: GalleryItem }) {
                     </div>
                 </div>
             </div>
-        </div>
+        </button>
     );
 }

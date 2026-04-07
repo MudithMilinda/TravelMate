@@ -1,6 +1,10 @@
 
 
-export default function ChatCard() {
+interface Props {
+    onOpenChat?: () => void;
+}
+
+export default function ChatCard({ onOpenChat }: Props) {
 
 
 
@@ -64,6 +68,7 @@ export default function ChatCard() {
                 <button
                     type="button"
                     className="mt-6 inline-flex items-center justify-center rounded-full border border-[#d3a84f] text-[#d3a84f] px-7 py-3 tracking-[0.24em] uppercase text-xs hover:bg-[#d3a84f]/10 transition-colors"
+                    onClick={onOpenChat}
                 >
                     Start Chatting..
                 </button>
